@@ -26,4 +26,4 @@ christianLyrics.getLyric(context, isPlaying: true);
 ```
 
 Demo:
-![Screenshot](screenshot_01.png)
+![Demo](screenshot_01.png)
