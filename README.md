@@ -27,4 +27,4 @@ christianLyrics.getLyric(context, isPlaying: true);
 ```
 
 # Demo
-![Demo](screenshot_01.png)
+![Demo](https://github.com/diepnghitinh/christian_lyrics/raw/main/screenshot_01.png)
