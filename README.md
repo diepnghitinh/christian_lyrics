@@ -16,7 +16,7 @@ a subtitle.
 This is an example of
 a subtitle - 2nd subtitle.
 ```
-Using
+How to use
 ```
 final christianLyrics = ChristianLyrics();
 christianLyrics.setLyricContent(lyricText);
@@ -24,3 +24,6 @@ christianLyrics.setLyricContent(lyricText);
 //Build widget
 christianLyrics.getLyric(context, isPlaying: true);
 ```
+
+Demo:
+![Screenshot](screenshot_01.png)
