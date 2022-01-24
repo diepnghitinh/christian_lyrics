@@ -39,6 +39,9 @@
       <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/christian_lyrics/example/ios/.symlinks/plugins/audio_session/example/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/christian_lyrics/example/ios/.symlinks/plugins/audio_session/example/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/christian_lyrics/example/ios/.symlinks/plugins/audio_session/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/christian_lyrics/example/ios/.symlinks/plugins/christian_lyrics/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/christian_lyrics/example/ios/.symlinks/plugins/christian_lyrics/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/christian_lyrics/example/ios/.symlinks/plugins/christian_lyrics/build" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/christian_lyrics/example/ios/.symlinks/plugins/just_audio/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/christian_lyrics/example/ios/.symlinks/plugins/just_audio/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/christian_lyrics/example/ios/.symlinks/plugins/just_audio/build" />
@@ -80,5 +83,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Dart SDK" level="project" />
     <orderEntry type="library" name="Flutter Plugins" level="project" />
+    <orderEntry type="library" name="Dart Packages" level="project" />
   </component>
 </module>

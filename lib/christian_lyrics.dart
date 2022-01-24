@@ -40,46 +40,55 @@ class ChristianLyrics {
 
     TextStyle style = Theme.of(context).textTheme.bodyText1!.copyWith(height: 1.5, fontSize: 20, color: Colors.white);
 
-    return LayoutBuilder(builder: (context, constraints) {
-      final normalStyle = style.copyWith(color: style.color!.withOpacity(0.7));
-      return ShaderMask(
-        shaderCallback: (rect) {
-          return ui.Gradient.linear(Offset(rect.width / 2, 0), Offset(rect.width / 2, constraints.maxHeight), [
-            const Color(0x00FFFFFF),
-            style.color!,
-            style.color!,
-            const Color(0x00FFFFFF),
-          ], [
-            0.0,
-            0.15,
-            0.85,
-            1
-          ]);
-        },
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: StreamBuilder(
-            stream: positionWithOffsetController.stream,
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              final result = snapshot.data ?? 0;
+    if (this.playingLyric!.hasLyric) {
+      return LayoutBuilder(builder: (context, constraints) {
+        final normalStyle = style.copyWith(color: style.color!.withOpacity(0.7));
+        return ShaderMask(
+          shaderCallback: (rect) {
+            return ui.Gradient.linear(Offset(rect.width / 2, 0), Offset(rect.width / 2, constraints.maxHeight), [
+              const Color(0x00FFFFFF),
+              style.color!,
+              style.color!,
+              const Color(0x00FFFFFF),
+            ], [
+              0.0,
+              0.15,
+              0.85,
+              1
+            ]);
+          },
+          child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: StreamBuilder(
+                  stream: positionWithOffsetController.stream,
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    final result = snapshot.data ?? 0;
 
-              //print('position: ${result} - ${positionWithOffset} - isPlaying: ${isPlaying}');
+                    //print('position: ${result} - ${positionWithOffset} - isPlaying: ${isPlaying}');
 
-              return Lyric(
-                lyric: playingLyric!.lyric!,
-                lyricLineStyle: normalStyle,
-                highlight: style.color!,
-                position: result,
-                onTap: () {
-                },
-                size: Size(constraints.maxWidth, constraints.maxHeight == double.infinity ? 0 : constraints.maxHeight),
-                playing: isPlaying,
-              );
-            }
-          )
+                    return Lyric(
+                      lyric: playingLyric!.lyric!,
+                      lyricLineStyle: normalStyle,
+                      highlight: style.color!,
+                      position: result,
+                      onTap: () {
+                      },
+                      size: Size(constraints.maxWidth, constraints.maxHeight == double.infinity ? 0 : constraints.maxHeight),
+                      playing: isPlaying,
+                    );
+                  }
+              )
+          ),
+        );
+      });
+    } else {
+      return Container(
+        child: Center(
+          child: Text(playingLyric!.message, style: style),
         ),
       );
-    });
+    }
+
   }
 
 }

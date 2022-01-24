@@ -1,3 +1,7 @@
+## 0.0.3
+
+* Check lyric content is null
+
 ## 0.0.2
 
 * Publish github
