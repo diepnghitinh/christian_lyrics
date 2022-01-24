@@ -63,7 +63,7 @@ class LyricState extends State<Lyric> with TickerProviderStateMixin {
   @override
   void didUpdateWidget(Lyric oldWidget) {
 
-    super.didUpdateWidget(oldWidget);
+    //super.didUpdateWidget(oldWidget);
 
     if (widget.lyric != oldWidget.lyric) {
       lyricPainter = LyricPainter(
@@ -72,7 +72,6 @@ class LyricState extends State<Lyric> with TickerProviderStateMixin {
         textAlign: widget.textAlign,
         highlight: widget.highlight,
       );
-      print('lyricPainter update');
     }
 
     if (widget.position != oldWidget.position) {
@@ -164,73 +163,80 @@ class LyricState extends State<Lyric> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  Widget? cacheOld;
+
   @override
   Widget build(BuildContext _) {
-    return Container(
-      constraints: BoxConstraints(minWidth: 300, minHeight: 120),
-      child: GestureDetector(
-        onTap: () {
-          if (!_consumeTap && widget.onTap != null) {
-            widget.onTap!();
-          } else {
-            _consumeTap = false;
-          }
-        },
-        onTapDown: (details) {
-          if (dragging) {
-            _consumeTap = true;
+    cacheOld ??= Container(
+        constraints: BoxConstraints(minWidth: 300, minHeight: 120),
+        child: GestureDetector(
+          onTap: () {
+            if (!_consumeTap && widget.onTap != null) {
+              widget.onTap!();
+            } else {
+              _consumeTap = false;
+            }
+          },
+          onTapDown: (details) {
+            if (dragging) {
+              _consumeTap = true;
 
-            dragging = false;
+              dragging = false;
+              _flingController?.dispose();
+              _flingController = null;
+            }
+          },
+          onVerticalDragStart: (details) {
+            dragging = true;
             _flingController?.dispose();
             _flingController = null;
-          }
-        },
-        onVerticalDragStart: (details) {
-          dragging = true;
-          _flingController?.dispose();
-          _flingController = null;
-        },
-        onVerticalDragUpdate: (details) {
-          //debugPrint("details.primaryDelta : ${details.primaryDelta}");
-          lyricPainter!.offsetScroll += details.primaryDelta!;
-        },
-        onVerticalDragEnd: (details) {
-          _flingController = AnimationController.unbounded(
-            vsync: this,
-            duration: const Duration(milliseconds: 300),
-          )
-            ..addListener(() {
-              double value = _flingController!.value;
+          },
+          onVerticalDragUpdate: (details) {
+            //debugPrint("details.primaryDelta : ${details.primaryDelta}");
+            lyricPainter!.offsetScroll += details.primaryDelta!;
+          },
+          onVerticalDragEnd: (details) {
+            _flingController = AnimationController.unbounded(
+              vsync: this,
+              duration: const Duration(milliseconds: 300),
+            )
+              ..addListener(() {
+                double value = _flingController!.value;
 
-              if (value < -lyricPainter!.height || value >= 0) {
-                _flingController!.dispose();
-                _flingController = null;
-                dragging = false;
-                value = value.clamp(-lyricPainter!.height, 0.0);
-              }
-              lyricPainter!.offsetScroll = value;
-              lyricPainter!.repaint();
-            })
-            ..addStatusListener((status) {
-              if (status == AnimationStatus.completed || status == AnimationStatus.dismissed) {
-                dragging = false;
-                _flingController?.dispose();
-                _flingController = null;
-              }
-            })
-            ..animateWith(
-                ClampingScrollSimulation(position: lyricPainter!.offsetScroll, velocity: details.primaryVelocity!));
-        },
-        child: CustomPaint(
-          size: widget.size,
-          painter: lyricPainter,
+                if (value < -lyricPainter!.height || value >= 0) {
+                  _flingController!.dispose();
+                  _flingController = null;
+                  dragging = false;
+                  value = value.clamp(-lyricPainter!.height, 0.0);
+                }
+                lyricPainter!.offsetScroll = value;
+                lyricPainter!.repaint();
+              })
+              ..addStatusListener((status) {
+                if (status == AnimationStatus.completed || status == AnimationStatus.dismissed) {
+                  dragging = false;
+                  _flingController?.dispose();
+                  _flingController = null;
+                }
+              })
+              ..animateWith(
+                  ClampingScrollSimulation(position: lyricPainter!.offsetScroll, velocity: details.primaryVelocity!));
+          },
+          child: CustomPaint(
+            size: widget.size,
+            painter: lyricPainter,
+          ),
         ),
-      ),
-    );
+      );
+
+    return cacheOld!;
   }
 }
 
 class LyricPainter extends ChangeNotifier implements CustomPainter {
+
+  double tmpPreDy = 0;
+
   LyricContent? lyric;
   //List<Subtitle> lyric;
   late List<TextPainter> lyricPainters;
@@ -287,6 +293,7 @@ class LyricPainter extends ChangeNotifier implements CustomPainter {
 
   @override
   void paint(ui.Canvas canvas, ui.Size size) {
+
     _layoutPainterList(size);
     canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
 
@@ -302,6 +309,7 @@ class LyricPainter extends ChangeNotifier implements CustomPainter {
       }
       dy += painter.height;
     }
+    tmpPreDy = dy;
   }
 
   void _paintCurrentLine(ui.Canvas canvas, TextPainter painter, double dy, ui.Size size) {

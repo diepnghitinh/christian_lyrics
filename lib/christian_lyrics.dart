@@ -23,7 +23,7 @@ class ChristianLyrics {
   void resetLyric() {
     lastPositionUpdateTime = DateTime.now().millisecondsSinceEpoch;
     lastPositionWithOffset = positionWithOffset;
-    print("a: ${lastPositionUpdateTime} - ${lastPositionWithOffset}");
+    //print("a: ${lastPositionUpdateTime} - ${lastPositionWithOffset}");
   }
 
   void setLyricContent(String lyricContent) {

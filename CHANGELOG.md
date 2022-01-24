@@ -1,3 +1,7 @@
+## 0.0.4
+
+* Performance lyric
+
 ## 0.0.3
 
 * Check lyric content is null
