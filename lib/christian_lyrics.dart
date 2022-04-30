@@ -13,6 +13,7 @@ class ChristianLyrics {
   int lastPositionUpdateTime = 0;
   int positionWithOffset = 0;
   int lastPositionWithOffset = 0;
+  Widget? cacheLyricWidget;
 
   PlayingLyric? playingLyric = PlayingLyric();
 
@@ -57,26 +58,44 @@ class ChristianLyrics {
               1
             ]);
           },
+          // child: Padding(
+          //     padding: EdgeInsets.symmetric(horizontal: 20),
+          //     child: StreamBuilder(
+          //         stream: positionWithOffsetController.stream,
+          //         builder: (BuildContext context, AsyncSnapshot snapshot) {
+          //           final result = snapshot.data ?? 0;
+          //
+          //           //print('position: ${result} - ${positionWithOffset} - isPlaying: ${isPlaying}');
+          //
+          //           return Lyric(
+          //             lyric: playingLyric!.lyric!,
+          //             lyricLineStyle: normalStyle,
+          //             highlight: style.color!,
+          //             position: result,
+          //             streamPosition: positionWithOffsetController,
+          //             // cacheLyricWidget: (Widget wg) {
+          //             //   cacheLyricWidget ??= wg;
+          //             //   return cacheLyricWidget;
+          //             // },
+          //             onTap: () {
+          //             },
+          //             size: Size(constraints.maxWidth, constraints.maxHeight == double.infinity ? 0 : constraints.maxHeight),
+          //             playing: isPlaying,
+          //           );
+          //         }
+          //     )
+          // ),
           child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
-              child: StreamBuilder(
-                  stream: positionWithOffsetController.stream,
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    final result = snapshot.data ?? 0;
-
-                    //print('position: ${result} - ${positionWithOffset} - isPlaying: ${isPlaying}');
-
-                    return Lyric(
-                      lyric: playingLyric!.lyric!,
-                      lyricLineStyle: normalStyle,
-                      highlight: style.color!,
-                      position: result,
-                      onTap: () {
-                      },
-                      size: Size(constraints.maxWidth, constraints.maxHeight == double.infinity ? 0 : constraints.maxHeight),
-                      playing: isPlaying,
-                    );
-                  }
+              child: Lyric(
+                lyric: playingLyric!.lyric!,
+                lyricLineStyle: normalStyle,
+                highlight: style.color!,
+                streamPosition: positionWithOffsetController,
+                onTap: () {
+                },
+                size: Size(constraints.maxWidth, constraints.maxHeight == double.infinity ? 0 : constraints.maxHeight),
+                playing: isPlaying,
               )
           ),
         );
